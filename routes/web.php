@@ -10,6 +10,20 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
 
+Route::get('/{store_slug}/{category_slug?}', function ($store_slug, $category_slug = null) {
+
+    $product = Product::whereHas('store', fn ($q) => $q->where('slug', $store_slug));
+    $category_slug && ($product = $product->whereHas('categories',
+        fn ($q) => $q->where('slug', $category_slug)
+    ));
+
+    return Inertia::render('StoreFront/Index', [
+        'products' => $product->get(),
+        'store' => Store::where('slug', $store_slug)->first(),
+    ]);
+});
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

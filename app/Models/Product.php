@@ -20,6 +20,11 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
 
     protected static function boot()
     {
