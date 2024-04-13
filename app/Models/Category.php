@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Scopes\StoreScope;
+
 
 use App\Models\Store;
 
@@ -48,12 +51,17 @@ class Category extends Model
         parent::boot();
 
         static::creating(function ($category) {
-            !$category->store_id && ($category->store_id = auth()->user()->store->id ?? Store::first()->id);
+            !$category->store_id && ($category->store_id = Auth::guard('stores')->id() ?? Store::first()->id);
         });
 
         static::deleting(function ($category) {
             $category->products()->detach();
         });
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new StoreScope);
     }
 
 }

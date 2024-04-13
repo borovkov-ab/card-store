@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -33,8 +34,10 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'is_admin' => Auth::guard('admin')->check(),
             ],
             'categories' => fn() => \App\Models\Category::all(),
+            'stores' => fn() => Auth::guard('admin')->check() ? \App\Models\Store::all()->keyBy('id') : [],
         ];
     }
 }

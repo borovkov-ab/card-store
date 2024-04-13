@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('image')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('categories');
-            $table->foreignUuid('store_id')->constrained()->nullable();
+            $table->foreignId('store_id')->constrained()->nullable();
             $table->unique(['store_id', 'slug']);
             $table->boolean('is_active')->default(true);
         });

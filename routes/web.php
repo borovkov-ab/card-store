@@ -23,15 +23,31 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth:admin,stores')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('/products/index', function () {
+        return Inertia::render('Store/Product/Index', [
+            'products' => Product::with('categories')->get(),
+        ]);
+    })->name('products.index');
+
+    Route::get('/category/index', fn () => Inertia::render('Store/Category/Index', [
+        //'categories' => Category::all(),
+        'save_category' => route('category.store'),
+    ]))->name('category.index');
+
+
+});
+
 
 Route::get('/stores', function () {
     return Inertia::render('Store/Index', [
-        'stores' => Store::all(),
+        //'stores' => Store::all(),
     ]);
-})->name('stores.index');
+})->middleware('auth:admin')->name('stores.index');
 
 Route::post('/stores', function () {
     // request()->validate([
@@ -58,11 +74,7 @@ Route::get('/stores/{store}', function (Store $store) {
 })->name('stores.show');
 
 
-Route::get('/products/index', function () {
-    return Inertia::render('Store/Product/Index', [
-        'products' => Product::with('categories')->get(),
-    ]);
-})->name('products.index');
+
 
 Route::post('/products/store', function () {
     request()->validate([
@@ -85,10 +97,6 @@ Route::post('/products/store', function () {
     return redirect()->route('products.index');
 })->name('products.store');
 
-Route::get('/category/index', fn () => Inertia::render('Store/Category/Index', [
-    //'categories' => Category::all(),
-    'save_category' => route('category.store'),
-]))->name('category.index');
 
 Route::post('/category/store', function () {
     request()->validate([

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Scopes\StoreScope;
 
 class Order extends Model
 {
@@ -19,5 +20,10 @@ class Order extends Model
     public function store()
     {
         return $this->belongsTo(Store::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new StoreScope);
     }
 }

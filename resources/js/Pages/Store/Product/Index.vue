@@ -5,7 +5,7 @@ import Edit from '@/Pages/Store/Product/Edit.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref, reactive, watchEffect } from 'vue';
 
-defineProps({ products: Array, categories: Array});
+defineProps({ products: Array, categories: Array, auth: Object, stores: Array});
 
 const isProductModalOpen = ref(false);
 
@@ -37,7 +37,7 @@ watchEffect(
 <template>
     <Head title="Products" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Products</h2>
         </template>
@@ -56,6 +56,9 @@ watchEffect(
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                         Categories
                     </th>
+                    <th v-if="auth?.is_admin" class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Stores
+                    </th>
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     <!-- <th class="px-6 py-3 bg-gray-50"></th> -->
                 </tr>
@@ -72,6 +75,10 @@ watchEffect(
                         <div v-for="category in product.categories" :key="category.id" class="badge badge-info me-1">
                             {{ category.name }}
                         </div>
+                    </td>
+                    <td v-if="auth?.is_admin" class="px-6 py-4">
+
+                            {{ stores[product.store_id].name ?? '' }}
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                         <button @click=" () => { updateForm(product); editDialog.showModal() }" class="text-indigo-600 hover:text-indigo-900">Edit</button>

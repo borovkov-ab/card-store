@@ -7,6 +7,13 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
+defineProps({
+    auth: {
+        type: Object,
+        required: true,
+    },
+});
+
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -38,7 +45,7 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('category.index')" :active="route().current('category.index')">
                                     Categories
                                 </NavLink>
-                                <NavLink :href="route('stores.index')" :active="route().current('stores.index')">
+                                <NavLink v-if="auth?.is_admin" :href="route('stores.index')" :active="route().current('stores.index')">
                                     Stores
                                 </NavLink>
                             </div>

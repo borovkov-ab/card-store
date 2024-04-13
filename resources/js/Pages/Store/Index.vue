@@ -4,7 +4,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 
 import { ref, watchEffect } from 'vue';
 
-const props = defineProps({ stores: Array });
+const props = defineProps({ stores: Array, auth: Object });
 
 const form = useForm({
     id: 0,
@@ -32,7 +32,7 @@ const tableHeader = ['Name', 'Slug', 'Address', 'Phone', 'Email', 'Active'];
 <template>
     <Head title="Stores" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Stores</h2>
         </template>

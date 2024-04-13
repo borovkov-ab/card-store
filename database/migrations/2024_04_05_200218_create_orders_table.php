@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->enum('status', ['pending', 'paid', 'completed', 'declined'])->default('paid');
-            $table->foreignUuid('store_id')->constrained();
+            $table->foreignId('store_id')->constrained();
             $table->unsignedInteger('total');
             $table->jsonb('customer');
         });

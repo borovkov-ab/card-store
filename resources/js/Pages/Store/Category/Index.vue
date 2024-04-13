@@ -12,7 +12,7 @@
 
     import { ref, watchEffect } from 'vue';
 
-    const props = defineProps({ categories: Array, save_category: String });
+    const props = defineProps({ categories: Array, save_category: String, auth: Object, stores: Array});
 
 
 
@@ -56,7 +56,7 @@
 <template>
     <Head title="Categories" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Categories</h2>
         </template>
@@ -68,6 +68,10 @@
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                         Name
                     </th>
+                    <th v-if="auth?.is_admin" class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                        Store
+                    </th>
+
                     <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Actions</th>
 
                 </tr>
@@ -76,6 +80,9 @@
                 <tr v-for="category in categories" :key="category.id">
                     <td class="px-6 py-4 whitespace-no-wrap">
                         {{ category.name }}
+                    </td>
+                    <td v-if="auth?.is_admin" class="px-6 py-4 whitespace-no-wrap">
+                        {{ stores[category.store_id].name ?? '' }}
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                         <button @click="updateForm(category); isEditModalOpen=true">Edit</button>

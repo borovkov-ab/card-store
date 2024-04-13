@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('slug');
-            $table->foreignUuid('store_id')->constrained()->nullable();
+            $table->foreignId('store_id')->constrained()->nullable();
             $table->unique(['store_id', 'slug']);
             $table->unsignedInteger('price');
             $table->unsignedInteger('qty');
