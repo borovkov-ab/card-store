@@ -66,7 +66,7 @@ defineExpose({
                         <Multiselect id="categories" v-model:selected.onlyname="product.categories" :options="categories" />
                     </div>
                     <footer>
-                        <PrimaryButton type="submit" class="ms-3" :disabled="product.processing" disabled > Save </PrimaryButton>
+                        <PrimaryButton type="submit" class="ms-3" :disabled="product.processing" > Save </PrimaryButton>
                         <SecondaryButton class="ms-3" @click="close"> Cancel </SecondaryButton>
                         <DangerButton
                             class="ms-3"

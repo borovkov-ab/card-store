@@ -1,17 +1,21 @@
 <script setup>
     import { ref, watchEffect } from 'vue';
+    import { Head, Link, router } from '@inertiajs/vue3';
+    import useBasket from '@/Composables/Basket';
+
     const toggleBasket = ref(false);
     const orderDetailModal = ref();
     const props = defineProps({
         store: Object,
-        order: Object
     });
 
     const basketButton = ref();
 
+    const { total, order } = useBasket();
+
     watchEffect(() => {
 
-        props.order.lines.length && (toggleBasket.value = !toggleBasket.value);
+        // order.lines.length && (toggleBasket.value = !toggleBasket.value);
     });
 
 </script>
@@ -20,14 +24,14 @@
     <header>
         <div class="navbar bg-base-100">
             <div class="flex-1">
-                <a class="btn btn-ghost text-xl">{{ store.name }}</a>
+                <Link :href="`/${store.slug}`" as="button" type="button" class="btn btn-ghost text-xl" preserve-state>{{ store.name }}</Link>
             </div>
 
             <div class="flex-none">
-                <slot name="menu" />
+                <slot name="nav" />
             </div>
             <div class="flex-none">
-                <div class="dropdown dropdown-end" :open="toggleBasket">
+                <div class="dropdown dropdown-end" open>
                     <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
                         <div class="indicator">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -36,7 +40,7 @@
                     </div>
                     <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                         <div class="card-body">
-                            <slot name="basket" />
+                            <slot name="basket"   :orderDetailModal="orderDetailModal"  ></slot>
                         </div>
                     </div>
                 </div>
@@ -64,18 +68,19 @@
     <main>
         <slot />
     </main>
-    <dialog :ref="orderDetailModal" class="modal">
-        <div class="modal-box">
-            <h3 class="font-bold text-lg">Hello!</h3>
-            <p class="py-4">Press ESC key or click the button below to close</p>
-            <div class="modal-action">
-            <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
-                <button class="btn">Close</button>
-            </form>
+        <dialog ref="orderDetailModal" class="modal">
+            <div class="modal-box">
+                <h3 class="font-bold text-lg">You cart</h3>
+                <!-- <p class="py-4">Click process to checkout</p> -->
+                    <form method="dialog">
+                        <slot name="cart" />
+                        <div class="modal-action">
+                            <Link :href="`/checkout/${store.slug}`" class="btn btn-primary" as="button" preserve-state>Process</Link>
+                            <button class="btn">Close</button>
+                        </div>
+                    </form>
             </div>
-        </div>
-    </dialog>
+        </dialog>
     <footer class="footer footer-center p-10 bg-base-200 text-base-content rounded">
         <nav class="grid grid-flow-col gap-4">
             <a class="link link-hover">About us</a>

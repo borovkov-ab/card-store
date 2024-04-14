@@ -1,13 +1,18 @@
 import { ref, watchEffect } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
-export function useBasket() {
-    const order = useForm({ lines: []});
-    const total = ref(0);
+const order = useForm({
+    id: 0, lines: [],
+    customer: { name: '', email: '', phone: '', address: '' },
+});
+
+const total = ref(0);
+
+export default function useBasket() {
 
     watchEffect(() => {
         total.value = order.lines.reduce(
-                (acc,{ price, qty }) => acc + price,
+                (acc,{ price, qty }) => acc + price * qty,
             0);
     })
 
