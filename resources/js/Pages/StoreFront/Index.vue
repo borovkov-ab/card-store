@@ -5,11 +5,11 @@
 
     defineProps({ categories: Array, products: Array, store: Object });
 
-    const  { total, order } = useBasket();
+    const  { order } = useBasket();
 
     const addToBasket = (product) => {
-        const line = order.lines.find(i => i.id === product.id);
-        line && line.qty++ || order.lines.push({...product, qty: 1 });
+        const line = order.products.find(i => i.id === product.id);
+        line && line.qty++ || order.products.push({...product, qty: 1 });
     }
 
 </script>
@@ -30,8 +30,8 @@
             </nav>
         </template>
         <template #basket="{ orderDetailModal }">
-            <span class="font-bold text-lg"> {{ order.lines.length }} Items</span>
-            <span class="text-info">Subtotal: ${{ total }}</span>
+            <span class="font-bold text-lg"> {{ order.products.length }} Items</span>
+            <span class="text-info">Subtotal: ${{ order.total }}</span>
             <div class="card-actions">
                 <button  class="btn btn-primary btn-block" @click=" orderDetailModal.showModal() "> View cart</button>
             </div>
@@ -68,12 +68,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="product in order.lines" :key="product.id">
+                    <tr v-for="product in order.products" :key="product.id">
                         <td>{{ product.name }}</td>
                         <td>{{ product.price }}</td>
                         <td>{{ product.qty }}</td>
                         <td>
-                            <button @click="order.lines = order.lines.filter(i => i.id !== product.id)">remove</button>
+                            <button @click="order.products = order.products.filter(i => i.id !== product.id)">remove</button>
                         </td>
                     </tr>
 

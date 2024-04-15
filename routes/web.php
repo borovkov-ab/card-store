@@ -10,6 +10,8 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
 
+use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -138,10 +140,20 @@ Route::post('/order/store', function () {
 
     $order = request('id') ? Order::find(request('id')) : Order::create(request()->all());
 
-    $order->products()->attach(request('products'));
-
+    $order->fill(request()->all());
     $order->save();
-    dd($order);
+
+    $quantity = array_reduce(request('products'), fn ($carry, $item) => $carry = [ ...$carry, [ 'qty' => $item['qty']] ], []);
+
+
+    Log::info('ddd', [array_column(request('products'), 'id'), $quantity]);
+
+
+
+
+    $order->products()->attach(array_combine(
+        array_column(request('products'), 'id'),
+        $quantity));
     return redirect()->route('front.success', [ $order->id ]);
 })->name('order.store');
 

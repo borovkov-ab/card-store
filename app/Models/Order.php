@@ -4,13 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attribure;
 use App\Models\Scopes\StoreScope;
 
 class Order extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = ['id', 'products'];
+
+    protected $casts = [
+        'customer' => 'array',
+    ];
+
+    protected function customer(): Attribute
+    {
+        return Attribute::make(
+            set: fn (array $value) => json_encode($value),
+        );
+    }
 
     public function products()
     {

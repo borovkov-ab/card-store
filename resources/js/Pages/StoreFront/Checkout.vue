@@ -5,7 +5,7 @@
 
     defineProps({ store: Object });
 
-    const  { total, order } = useBasket();
+    const  { order } = useBasket();
 
 </script>
 
@@ -24,7 +24,7 @@
             </nav>
         </template>
 
-        <form @submit="order.post(route('order.store'))" method="post">
+        <form @submit.prevent="order.post(route('order.store'))" method="post">
             <template v-for="i in Object.keys(order.customer)" :key="i">
                 <div class="form-control">
                     <label class="label">
@@ -38,7 +38,7 @@
             <button type="submit" class="btn btn-primary" :disabled="order.processing">Checkout</button>
         </form>
         <!-- <template #basket="{ orderDetailModal }">
-            <span class="font-bold text-lg"> {{ order.lines.length }} Items</span>
+            <span class="font-bold text-lg"> {{ order.products.length }} Items</span>
             <span class="text-info">Subtotal: ${{ total }}</span>
             <div class="card-actions">
                 <button  class="btn btn-primary btn-block" @click=" orderDetailModal.showModal() "> View cart</button>
