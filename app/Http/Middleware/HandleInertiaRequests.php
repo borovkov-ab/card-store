@@ -35,9 +35,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'is_admin' => Auth::guard('admin')->check(),
+                'store_id' => $request->session()->get('store_id'),
             ],
             'categories' => fn() => \App\Models\Category::all(),
-            'stores' => fn() => Auth::guard('admin')->check() ? \App\Models\Store::all()->keyBy('id') : [],
+            'stores' => fn() => empty($request->session()->get('store_id')) ? \App\Models\Store::all()->keyBy('id') : [],
         ];
     }
 }

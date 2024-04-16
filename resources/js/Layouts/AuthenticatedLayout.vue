@@ -45,12 +45,16 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('category.index')" :active="route().current('category.index')">
                                     Categories
                                 </NavLink>
-                                <NavLink v-if="auth?.is_admin" :href="route('stores.index')" :active="route().current('stores.index')">
+                                <NavLink :href="route('orders.index')" :active="route().current('orders.index')">
+                                    Orders
+                                </NavLink>
+                                <NavLink v-if="auth?.is_admin && !auth?.store_id" :href="route('stores.index')" :active="route().current('stores.index')">
                                     Stores
                                 </NavLink>
-                                <NavLink v-if="auth?.is_admin" :href="route('users.index')" :active="route().current('users.index')">
+                                <NavLink v-if="auth?.is_admin && !auth?.store_id" :href="route('users.index')" :active="route().current('users.index')">
                                     Admins
                                 </NavLink>
+
                             </div>
                         </div>
 
@@ -84,6 +88,8 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
+                                        <DropdownLink v-if="auth?.is_admin && auth?.store_id" :href="route('store.emulate')"> Exit store mode </DropdownLink>
+
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>
@@ -147,6 +153,7 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink v-if="auth?.is_admin && auth?.store_id" :href="route('store.emulate')"> Exit store mode </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
                                 Log Out
                             </ResponsiveNavLink>

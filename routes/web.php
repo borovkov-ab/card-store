@@ -21,12 +21,12 @@ use Illuminate\Support\Facades\Log;
 Route::get('/', function () {
 
     return to_route('register');
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
 });
 
 Route::middleware('auth:admin,stores')->group(function () {
@@ -41,13 +41,19 @@ Route::middleware('auth:admin,stores')->group(function () {
         ]);
     })->name('dashboard');
 
-    Route::get('/products/index', function () {
+    Route::get('/orders', function () {
+        return Inertia::render('Store/Order/Index', [
+            'orders' => Order::orderBy('created_at', 'desc')->get(),
+        ]);
+    })->name('orders.index');
+
+    Route::get('/products', function () {
         return Inertia::render('Store/Product/Index', [
             'products' => Product::with('categories')->orderBy('created_at', 'desc')->get(),
         ]);
     })->name('products.index');
 
-    Route::get('/category/index', fn () => Inertia::render('Store/Category/Index', [
+    Route::get('/category', fn () => Inertia::render('Store/Category/Index', [
         //'categories' => Category::all(),
         'save_category' => route('category.store'),
     ]))->name('category.index');
@@ -112,6 +118,12 @@ Route::middleware(['auth:admin'])->group(function () {
 
     Route::post('/users/store', [RegisteredUserController::class, 'store'])->name('user.store');
 
+    Route::get('/store/emulate/{store_id?}', function ($store_id = null) {
+
+        $store_id ? session(['store_id' => intval($store_id)]) : session()->forget('store_id');
+        return to_route('dashboard');
+    })->name('store.emulate');
+
 });
 
 Route::get('/stores/create', function () {
@@ -165,7 +177,7 @@ Route::get('/success/{order}', function (Order $order) {
 
 Route::get('/{store:slug}/{category_slug?}', function (Store $store, $category_slug = null) {
     if (!$store->is_active) return to_route('register');
-    request()->merge([ 'store_id' => $store->id ]);
+    session([ 'store_id' => $store->id ]);
 
     $products = !$category_slug ? Product::latest()->get() : Product::whereHas('categories',
         fn ($q) => $q->where('slug', $category_slug)

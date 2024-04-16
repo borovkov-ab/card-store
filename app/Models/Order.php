@@ -39,7 +39,7 @@ class Order extends Model
         parent::boot();
 
         static::creating(function ($order) {
-            $order->store_id = request()->store_id;
+            $order->store_id = session('store_id');
         });
     }
 

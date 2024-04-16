@@ -42,7 +42,7 @@ const shopsCount = computed(() => Object.keys(props.stores).filter(i => props.st
                 </div> -->
                 <div class="stats shadow mt-4">
 
-                    <div class="stat place-items-center">
+                    <div v-if="!auth.store_id" class="stat place-items-center">
                         <div class="stat-title">Number of stores</div>
                         <div class="stat-value">{{ shopsCount }}</div>
                         <div class="stat-desc">From January 1st to February 1st</div>

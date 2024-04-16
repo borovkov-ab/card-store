@@ -61,35 +61,38 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Categories</h2>
         </template>
 
+        <main class="card w-150 bg-base-100 shadow-xl m-10">
+            <div class="card-body">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th v-if="auth?.is_admin" class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Store
+                            </th>
 
-        <table class="table table-zebra">
-            <thead>
-                <tr>
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        Name
-                    </th>
-                    <th v-if="auth?.is_admin" class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        Store
-                    </th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Actions</th>
 
-                    <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="category in categories" :key="category.id">
-                    <td class="px-6 py-4 whitespace-no-wrap">
-                        {{ category.name }}
-                    </td>
-                    <td v-if="auth?.is_admin" class="px-6 py-4 whitespace-no-wrap">
-                        {{ stores[category.store_id].name ?? '' }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                        <button @click="updateForm(category); isEditModalOpen=true">Edit</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-for="category in categories" :key="category.id">
+                            <td class="px-6 py-4 whitespace-no-wrap">
+                                {{ category.name }}
+                            </td>
+                            <td v-if="auth?.is_admin" class="px-6 py-4 whitespace-no-wrap">
+                                {{ category.store_id in stores ? stores[category.store_id].name : '' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                                <button @click="updateForm(category); isEditModalOpen=true">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
         <PrimaryButton class="ml-4 mt-4" @click="isEditModalOpen=true">New</PrimaryButton>
 
     </AuthenticatedLayout>

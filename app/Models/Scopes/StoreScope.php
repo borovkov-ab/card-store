@@ -14,7 +14,7 @@ class StoreScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $store_id = request('store_id') ?? (!Auth::guard('admin')->check() ? Auth::guard('stores')->id() : null);
+        $store_id = session('store_id');
         $store_id && $builder->where('store_id', $store_id);
     }
 }

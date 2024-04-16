@@ -42,20 +42,40 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $credentials = [$this->only('email', 'password'), $this->boolean('remember')] ;
+        switch(true) {
+            case Auth::guard('admin')->attempt(
+                $this->only('email', 'password'),
+                $this->boolean('remember')):
 
-        if (!Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember')) &&
-            !Auth::guard('stores')->attempt([
-                ...$this->only('email', 'password'),
-                fn(Builder $query) => $query->where('is_active', 1)
-            ], $this->boolean('remember'))
-        ) {
-            RateLimiter::hit($this->throttleKey());
+                $this->session()->forget('store_id');
+                break;
+            case Auth::guard('stores')->attempt([
+                    ...$this->only('email', 'password'),
+                    fn(Builder $query) => $query->where('is_active', 1)
+                ], $this->boolean('remember')):
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+                $this->session()->put('store_id', Auth::guard('stores')->id());
+                break;
+            default:
+                RateLimiter::hit($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => trans('auth.failed'),
+                ]);
         }
+
+        // if (!Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember')) &&
+        //     !Auth::guard('stores')->attempt([
+        //         ...$this->only('email', 'password'),
+        //         fn(Builder $query) => $query->where('is_active', 1)
+        //     ], $this->boolean('remember'))
+        // ) {
+        //     RateLimiter::hit($this->throttleKey());
+
+        //     throw ValidationException::withMessages([
+        //         'email' => trans('auth.failed'),
+        //     ]);
+        // }
 
         RateLimiter::clear($this->throttleKey());
     }
