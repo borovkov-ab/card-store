@@ -52,7 +52,7 @@ defineExpose({
             </caption>
 
             <div>
-                <form @submit.prevent="product.post(route('products.store'), { onSuccess: () => close()})">
+                <form @submit.prevent="product.transform(d => ({...d, price: d.price*100 })).post(route('products.store'), { onSuccess: () => close()})">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" v-model="product.name" class="mt-1 block

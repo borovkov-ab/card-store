@@ -23,7 +23,7 @@ const form = useForm({
 const updateForm = (product) => {
     form.reset();
     Object.keys(product).forEach(element => {
-        form[element] = product[element];
+        form[element] = element==='price' ? product[element]/100 : product[element];
     });
 }
 

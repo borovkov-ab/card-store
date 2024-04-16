@@ -64,19 +64,6 @@ class LoginRequest extends FormRequest
                 ]);
         }
 
-        // if (!Auth::guard('admin')->attempt($this->only('email', 'password'), $this->boolean('remember')) &&
-        //     !Auth::guard('stores')->attempt([
-        //         ...$this->only('email', 'password'),
-        //         fn(Builder $query) => $query->where('is_active', 1)
-        //     ], $this->boolean('remember'))
-        // ) {
-        //     RateLimiter::hit($this->throttleKey());
-
-        //     throw ValidationException::withMessages([
-        //         'email' => trans('auth.failed'),
-        //     ]);
-        // }
-
         RateLimiter::clear($this->throttleKey());
     }
 

@@ -27,7 +27,7 @@
                     <tbody>
                         <tr v-for="{ created_at, status, total, customer, id  } in orders" :key="id">
                             <td> {{ created_at.slice(0,16) }}</td>
-                            <td> {{ total }}</td>
+                            <td> {{ total/100 }}</td>
                             <td> {{ status }}</td>
                             <td> {{ customer.name }}</td>
                         </tr>

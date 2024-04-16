@@ -3,7 +3,7 @@
     import FrontLayout from '@/Layouts/FrontLayout.vue';
     import useBasket from '@/Composables/Basket';
 
-    defineProps({ store: Object, order: Object });
+    defineProps({ store: Object, order: Object })
 
 
 </script>

@@ -66,7 +66,7 @@ const shopsCount = computed(() => Object.keys(props.stores).filter(i => props.st
 
                     <div v-for="date in totalByDate" :key="date" class="stat">
                         <div class="stat-title">{{ date.date }}</div>
-                        <div class="stat-value">{{ date.total }}</div>
+                        <div class="stat-value">{{ date.total/100 }}</div>
                         <div class="stat-desc">{{ date.amount }} orders</div>
                     </div>
 

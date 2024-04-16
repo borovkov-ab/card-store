@@ -43,7 +43,7 @@
         </template>
         <template #basket="{ orderDetailModal }">
             <span class="font-bold text-lg"> {{ order.products.length }} Items</span>
-            <span class="text-info">Subtotal: ${{ order.total }}</span>
+            <span class="text-info">Subtotal: ${{ order.total/100 }}</span>
             <div class="card-actions">
                 <button  class="btn btn-primary btn-block" @click=" orderDetailModal.showModal() "> View cart</button>
             </div>
@@ -59,7 +59,7 @@
             <tbody>
                 <tr v-for="p in products" :key="p.id">
                     <td>{{ p.name }}</td>
-                    <td>{{ p.price }}</td>
+                    <td>{{ p.price/100 }}</td>
                     <td>
                         <button @click="addToBasket(p)">
                             add
@@ -82,7 +82,7 @@
                 <tbody>
                     <tr v-for="product in order.products" :key="product.id">
                         <td>{{ product.name }}</td>
-                        <td>{{ product.price }}</td>
+                        <td>{{ product.price/100 }}</td>
                         <td>{{ product.qty }}</td>
                         <td>
                             <button @click="order.products = order.products.filter(i => i.id !== product.id)">remove</button>
