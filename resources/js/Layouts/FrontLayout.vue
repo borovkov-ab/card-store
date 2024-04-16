@@ -11,7 +11,7 @@
 
     const basketButton = ref();
 
-    const { order } = useBasket();
+    const { order } = useBasket(props.store?.id);
 
     watchEffect(() => {
 

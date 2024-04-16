@@ -48,6 +48,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink v-if="auth?.is_admin" :href="route('stores.index')" :active="route().current('stores.index')">
                                     Stores
                                 </NavLink>
+                                <NavLink v-if="auth?.is_admin" :href="route('users.index')" :active="route().current('users.index')">
+                                    Admins
+                                </NavLink>
                             </div>
                         </div>
 

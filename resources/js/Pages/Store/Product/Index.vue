@@ -5,7 +5,7 @@ import Edit from '@/Pages/Store/Product/Edit.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref, reactive, watchEffect } from 'vue';
 
-defineProps({ products: Array, categories: Array, auth: Object, stores: Array});
+defineProps({ products: Array, categories: Array, auth: Object, stores: Object});
 
 const isProductModalOpen = ref(false);
 

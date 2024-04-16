@@ -4,7 +4,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 
 import { ref, watchEffect } from 'vue';
 
-const props = defineProps({ stores: Array, auth: Object });
+const props = defineProps({ stores: Object, auth: Object });
 
 const form = useForm({
     id: 0,

@@ -12,7 +12,7 @@
 
     import { ref, watchEffect } from 'vue';
 
-    const props = defineProps({ categories: Array, save_category: String, auth: Object, stores: Array});
+    const props = defineProps({ categories: Array, save_category: String, auth: Object, stores: Object});
 
 
 
@@ -30,7 +30,7 @@
 
     const deleteCategory = () => {
         form.delete(route('category.delete'), {
-            onSuccess: () => closeModal(),
+            onSuccess: () => closeEditModal(),
             // onError: () => nameInput.value.focus(),
             onFinish: () => form.reset(),
         })

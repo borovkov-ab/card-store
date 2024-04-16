@@ -34,6 +34,15 @@ class Order extends Model
         return $this->belongsTo(Store::class);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $order->store_id = request()->store_id;
+        });
+    }
+
     protected static function booted(): void
     {
         static::addGlobalScope(new StoreScope);

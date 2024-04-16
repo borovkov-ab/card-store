@@ -3,9 +3,8 @@
     import FrontLayout from '@/Layouts/FrontLayout.vue'
     import useBasket from '@/Composables/Basket';
 
-    defineProps({ store: Object });
-
-    const  { order } = useBasket();
+    const props = defineProps({ store: Object });
+    const  { order } = useBasket(props.store?.id);
 
 </script>
 
@@ -24,7 +23,7 @@
             </nav>
         </template>
 
-        <form @submit.prevent="order.post(route('order.store'))" method="post">
+        <form @submit.prevent="order.post(route('order.store'), { onSuccess: () => order.reset() })" method="post">
             <template v-for="i in Object.keys(order.customer)" :key="i">
                 <div class="form-control">
                     <label class="label">

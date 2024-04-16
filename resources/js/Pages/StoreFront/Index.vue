@@ -1,23 +1,35 @@
+<!-- <script>
+        import FrontLayout from '@/Layouts/FrontLayout.vue'
+
+    export default {
+        layout: (h, page) => h(FrontLayout, [page]),
+    }
+
+</script> -->
+
 <script setup>
     import { Head, Link } from '@inertiajs/vue3';
     import FrontLayout from '@/Layouts/FrontLayout.vue'
+
     import useBasket from '@/Composables/Basket';
 
-    defineProps({ categories: Array, products: Array, store: Object });
+    const props = defineProps({ categories: Array, products: Array, store: Object });
 
-    const  { order } = useBasket();
+    const  { order } = useBasket(props.store?.id);
 
     const addToBasket = (product) => {
         const line = order.products.find(i => i.id === product.id);
         line && line.qty++ || order.products.push({...product, qty: 1 });
     }
 
+
+
 </script>
 
 <template >
     <Head :title="store.name"  />
 
-    <FrontLayout :store="store" >
+    <FrontLayout :store="store ?? null" >
         <template #nav>
             <nav class="flex flex-wrap items-center justify-center space-x-4">
                 <Link preserve-state :only="['products']"
