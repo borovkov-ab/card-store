@@ -13,18 +13,42 @@ It is an open source project that implements multitenant marketplace for any sto
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+PHP 8.2+
+Laravel 11 
+Tailwindcss
+Daisy UI
+Webpack! (not Vite) 
+Inertia with Vuejs 3 (composition API)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Main parts (fitures)
 
-## Laravel Sponsors
+There are tree main parts of the project: admin panel, store crm, store frontend.
+*Admin abilities*
+Manage users and their stores 
+Add another admins
+Delete or deactivate stores ( remove all data in store) 
+Login as Client and option to back without reset admin session 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+*Store CRM*
+Login / Register
+crud products ( name price qty image) imagination 
+crud category - every category will be added to navigation 
+assign categories to products - can be assigned multiple categories
+view orders - list
+order statuses example: paid, completed, declined
+statistics on dashboard
 
+*Store frontend*
+Any Registered store has his own storefront  with his id prefix (slug)
+Navigation by categories in store 
+product list by category - > store_slug/category_slug
+minicart - when you add product you get cart popup 
+Cart page with option to delete product
+Checkout form with customer details
+Success page that show the order id to the visitor and thank you 
 
 ## Contributing
 
