@@ -23,9 +23,10 @@ Webpack! (not Vite)
 Inertia with Vuejs 3 (composition API)
 
 
-## Main parts (fitures)
+## Main parts (features)
 
 There are tree main parts of the project: admin panel, store crm, store frontend.
+
 *Admin abilities*
 Manage users and their stores 
 Add another admins
